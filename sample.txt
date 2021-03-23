@@ -1,5 +1,1 @@
-START
-
-#make var
-
-END
+var a = "pussy"
