@@ -15,8 +15,15 @@ public class Compiler {
                     continue;
                 } else if (code.startsWith("var")) { // creating variable
                     if (code.split(" ")[3].startsWith("\"")) { // string
-                        String value = code.split(" ")[3];
-                        // value = value.substring(1, value.length() - 1);
+                        String value = "";
+                        for (int i = 3; i < code.split(" ").length; i++) {
+                            if (i == code.split(" ").length - 1) {
+                                value += code.split(" ")[i];
+                            } else {
+                                value += code.split(" ")[i] + " ";
+                            }
+                        }
+                        value = value.substring(1, value.length() - 1);
                         strVars.addVariable(code.split(" ")[1], value);
                         System.out.println(strVars.getValue(code.split(" ")[1]));
                     } else { // integer
