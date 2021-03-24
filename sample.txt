@@ -1,2 +1,4 @@
-print(12)
-print("jahseh dwayne onfroy")
+var a = "arpon purkayastha"
+var b = 192349
+print(a)
+print(b)
