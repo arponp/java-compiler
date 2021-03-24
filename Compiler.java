@@ -36,12 +36,6 @@ public class Compiler {
                     } else if (isInteger(query)) { // print integers
                         System.out.println(line.substring(line.indexOf("(") + 1, line.indexOf(")")));
                     } else { // print variables
-                        // String strValue = strVars.getValue(line.substring(line.indexOf("(") + 1,
-                        // line.indexOf(")")));
-                        // int intValue = intVars.getValue(line.substring(line.indexOf("(") +
-                        // 1,line.indexOf(")")));
-                        // System.out.println(strValue);
-                        // System.out.println(intValue);
                         ArrayList<String> strVarNames = strVars.getStringVariableNames();
                         ArrayList<String> intVarNames = intVars.getStringVariableNames();
                         if (strVarNames.indexOf(line.substring(line.indexOf("(") + 1, line.indexOf(")"))) != -1) {
@@ -53,6 +47,9 @@ public class Compiler {
                                     intVars.getValue(line.substring(line.indexOf("(") + 1, line.indexOf(")"))));
                         }
                     }
+                } else {
+                    System.out.println("Doesn't compile");
+                    break;
                 }
             }
             input.close();
