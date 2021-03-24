@@ -25,7 +25,7 @@ public class Compiler {
                         }
                         value = value.substring(1, value.length() - 1);
                         strVars.addVariable(line.split(" ")[1], value);
-                    } else { // integer
+                    } else if (isInteger(line.split(" ")[3])) { // integer
                         int value = Integer.parseInt(line.split(" ")[3]);
                         intVars.addVariable(line.split(" ")[1], value);
                     }
@@ -33,6 +33,8 @@ public class Compiler {
                     String query = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
                     if (query.startsWith("\"")) {
                         System.out.println(query.substring(query.indexOf("\"") + 1, query.length() - 1));
+                    } else if (isInteger(query)) {
+                        System.out.println(line.substring(line.indexOf("(") + 1, line.indexOf(")")));
                     }
                 }
             }
@@ -40,6 +42,30 @@ public class Compiler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean isInteger(String str) {
+        if (str == null) {
+            return false;
+        }
+        int length = str.length();
+        if (length == 0) {
+            return false;
+        }
+        int i = 0;
+        if (str.charAt(0) == '-') {
+            if (length == 1) {
+                return false;
+            }
+            i = 1;
+        }
+        for (; i < length; i++) {
+            char c = str.charAt(i);
+            if (c < '0' || c > '9') {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
