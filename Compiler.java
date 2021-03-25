@@ -5,6 +5,7 @@ public class Compiler {
     public static void main(String[] args) throws FileNotFoundException {
         IntegerVariables intVars = new IntegerVariables();
         StringVariables strVars = new StringVariables();
+        Variables variables = new Variables();
         try {
             File file = new File("/Users/arponp/Desktop/Mission 20-21/Java mission/java-compiler/sample.txt");
             Scanner input = new Scanner(file);
@@ -24,9 +25,11 @@ public class Compiler {
                         }
                         value = value.substring(1, value.length() - 1);
                         strVars.addVariable(line.split(" ")[1], value);
+                        variables.addVariable(line.split(" ")[1], "String");
                     } else if (isInteger(line.split(" ")[3])) { // integer
                         int value = Integer.parseInt(line.split(" ")[3]);
                         intVars.addVariable(line.split(" ")[1], value);
+                        variables.addVariable(line.split(" ")[1], "int");
                     }
                 } else if (line.startsWith("print(")) {
                     String query = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
@@ -35,13 +38,11 @@ public class Compiler {
                     } else if (isInteger(query)) { // print integers
                         System.out.println(line.substring(line.indexOf("(") + 1, line.indexOf(")")));
                     } else { // print variables
-                        ArrayList<String> strVarNames = strVars.getStringVariableNames();
-                        ArrayList<String> intVarNames = intVars.getStringVariableNames();
-                        if (strVarNames.indexOf(line.substring(line.indexOf("(") + 1, line.indexOf(")"))) != -1) {
+                        String type = variables.getType(line.substring(line.indexOf("(") + 1, line.indexOf(")")));
+                        if (type.equals("String")) {
                             System.out.println(
                                     strVars.getValue(line.substring(line.indexOf("(") + 1, line.indexOf(")"))));
-                        } else if (intVarNames
-                                .indexOf(line.substring(line.indexOf("(") + 1, line.indexOf(")"))) != -1) {
+                        } else if (type.equals("int")) {
                             System.out.println(
                                     intVars.getValue(line.substring(line.indexOf("(") + 1, line.indexOf(")"))));
                         }
@@ -57,6 +58,11 @@ public class Compiler {
                         } else if (val1.startsWith("\"") && val1.endsWith("\"") && val2.startsWith("\"")
                                 && val2.endsWith("\"")) {// two strings
                             conditionMet = val1.equals(val2);
+                        } else if (!val1.contains("\"") && !val2.contains("\"")) {// two variables
+                            if (variables.getType(val1) != variables.getType(val2)) {
+                                System.out.println("Type mismatch compile error");
+                                break;
+                            }
                         }
                     }
                     System.out.println(conditionMet);

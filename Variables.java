@@ -13,6 +13,8 @@ public class Variables {
 
     public String getType(String name) {
         int index = variableNames.indexOf(name);
+        if (index == -1)
+            return null;
         return variableTypes.get(index);
     }
 
