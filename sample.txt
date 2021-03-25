@@ -1,5 +1,3 @@
-var a = "arpon purkayastha"
-var b = 192349
-# abcd
-print(b)
-print(b)
+var a = 69
+if (47==69) 
+    print("hi")

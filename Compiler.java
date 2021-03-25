@@ -10,8 +10,7 @@ public class Compiler {
             Scanner input = new Scanner(file);
             while (input.hasNextLine()) {
                 String line = input.nextLine();
-                if (line.startsWith("#")) {
-                    // commenting
+                if (line.startsWith("#")) { // commenting
                     continue;
                 } else if (line.startsWith("var")) { // creating variable
                     if (line.split(" ")[3].startsWith("\"")) { // string
@@ -47,9 +46,15 @@ public class Compiler {
                                     intVars.getValue(line.substring(line.indexOf("(") + 1, line.indexOf(")"))));
                         }
                     }
-                } else {
-                    System.out.println("Doesn't compile");
-                    break;
+                } else if (line.startsWith("if ")) { // if statement
+                    String condition = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
+                    if (condition.contains("==")) { // equal comparator
+                        String val1 = condition.split("==")[0];
+                        String val2 = condition.split("==")[1];
+                        if (isInteger(val1) && isInteger(val2)) {
+                            System.out.println(Integer.parseInt(val1) == Integer.parseInt(val2));
+                        }
+                    }
                 }
             }
             input.close();
