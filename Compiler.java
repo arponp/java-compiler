@@ -63,6 +63,11 @@ public class Compiler {
                                 System.out.println("Type mismatch compile error");
                                 break;
                             }
+                            if (variables.getType(val1).equals("String")) { // comparing two strings
+                                conditionMet = strVars.getValue(val1).equals(strVars.getValue(val2));
+                            } else { // two integers
+                                conditionMet = intVars.getValue(val1) == intVars.getValue(val2);
+                            }
                         }
                     }
                     System.out.println(conditionMet);
