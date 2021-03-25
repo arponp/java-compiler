@@ -48,17 +48,24 @@ public class Compiler {
                     }
                 } else if (line.startsWith("if ")) { // if statement
                     String condition = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
+                    boolean conditionMet = false;
                     if (condition.contains("==")) { // equal comparator
                         String val1 = condition.split("==")[0];
                         String val2 = condition.split("==")[1];
                         if (isInteger(val1) && isInteger(val2)) {
-                            System.out.println(Integer.parseInt(val1) == Integer.parseInt(val2));
+                            conditionMet = Integer.parseInt(val1) == Integer.parseInt(val2);
+                        } else if (val1.startsWith("\"") && val1.endsWith("\"") && val2.startsWith("\"")
+                                && val2.endsWith("\"")) {// two strings
+                            conditionMet = val1.equals(val2);
                         }
                     }
+                    System.out.println(conditionMet);
                 }
             }
             input.close();
-        } catch (IOException e) {
+        } catch (
+
+        IOException e) {
             e.printStackTrace();
         }
     }
