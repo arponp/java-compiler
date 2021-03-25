@@ -56,8 +56,14 @@ public class Compiler {
                         if (isInteger(val1) && isInteger(val2)) { // two integers
                             conditionMet = Integer.parseInt(val1) == Integer.parseInt(val2);
                         } else if (val1.startsWith("\"") && val1.endsWith("\"") && val2.startsWith("\"")
-                                && val2.endsWith("\"")) {// two strings
+                                && val2.endsWith("\"")) { // two strings
                             conditionMet = val1.equals(val2);
+                        } else if (isInteger(val1) || isInteger(val2)) {
+                            if (variables.getType(val1) != null) {
+                                conditionMet = intVars.getValue(val1) == Integer.parseInt(val2);
+                            } else {
+                                conditionMet = intVars.getValue(val2) == Integer.parseInt(val1);
+                            }
                         } else if (!val1.contains("\"") && !val2.contains("\"")) {// two variables
                             if (variables.getType(val1) != variables.getType(val2)) {
                                 System.out.println("Type mismatch compile error");
@@ -68,6 +74,7 @@ public class Compiler {
                             } else { // two integers
                                 conditionMet = intVars.getValue(val1) == intVars.getValue(val2);
                             }
+                        } else {
                         }
                     }
                     System.out.println(conditionMet);

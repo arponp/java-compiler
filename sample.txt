@@ -1,4 +1,3 @@
-var a = "14"
+var a = 14
 var b = "14"
-if (a==b)
-print(b)
+if (a==14)
