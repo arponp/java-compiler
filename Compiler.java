@@ -11,6 +11,9 @@ public class Compiler {
             Scanner input = new Scanner(file);
             while (input.hasNextLine()) {
                 String line = input.nextLine();
+                if (line.startsWith("    ")) {
+                    line = line.substring(4);
+                }
                 if (line.startsWith("#")) { // commenting
                     continue;
                 } else if (line.startsWith("var ")) { // creating variable
@@ -75,17 +78,34 @@ public class Compiler {
                                 conditionMet = intVars.getValue(val1) == intVars.getValue(val2);
                             }
                         } else {
+                            if (variables.getType(val1) != null) {
+                                conditionMet = strVars.getValue(val1)
+                                        .equals(val2.substring(val2.indexOf("\"") + 1, val2.length() - 1));
+                            } else {
+                                conditionMet = strVars.getValue(val2)
+                                        .equals(val1.substring(val1.indexOf("\"") + 1, val1.length() - 1));
+                            }
                         }
                     }
-                    System.out.println(conditionMet);
+                    if (!conditionMet) {
+                        while (true) {
+                            if (input.nextLine().startsWith("    ")) {
+                                input.nextLine();
+                            } else {
+                                break;
+                            }
+                        }
+                    }
                 }
             }
             input.close();
-        } catch (
-
-        IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void executeCode() {
+
     }
 
     public static boolean isInteger(String str) {

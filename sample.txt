@@ -1,3 +1,7 @@
-var a = 14
-var b = "14"
-if (a==14)
+var a = 5
+var b = "poopus"
+if (a==6)
+    var c = "jimmy"
+    print(c)
+
+# add condition for string and int 
