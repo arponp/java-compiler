@@ -1,7 +1,5 @@
-var a = 5
-var b = "poopus"
-if (a==6)
-    var c = "jimmy"
-    print(c)
+var a = input("name")
 
+if (a=="arpon") 
+    print("you are arpon")
 # add condition for string and int 

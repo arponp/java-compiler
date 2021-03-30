@@ -9,6 +9,7 @@ public class Compiler {
         try {
             File file = new File("/Users/arponp/Desktop/Mission 20-21/Java mission/java-compiler/sample.txt");
             Scanner input = new Scanner(file);
+            Scanner userInput = new Scanner(System.in);
             while (input.hasNextLine()) {
                 String line = input.nextLine();
                 if (line.startsWith("    ")) {
@@ -33,6 +34,18 @@ public class Compiler {
                         int value = Integer.parseInt(line.split(" ")[3]);
                         intVars.addVariable(line.split(" ")[1], value);
                         variables.addVariable(line.split(" ")[1], "int");
+                    } else if (line.split(" ")[3].startsWith("input(")) {
+                        String inputMessage = line.split(" ")[3].substring(line.split(" ")[3].indexOf("(") + 2,
+                                line.split(" ")[3].indexOf(")") - 1);
+                        System.out.print(inputMessage + " ");
+                        String value = userInput.nextLine();
+                        if (isInteger(value)) {
+                            intVars.addVariable(line.split(" ")[1], Integer.parseInt(value));
+                            variables.addVariable(line.split(" ")[1], "int");
+                        } else {
+                            strVars.addVariable(line.split(" ")[1], value);
+                            variables.addVariable(line.split(" ")[1], "String");
+                        }
                     }
                 } else if (line.startsWith("print(")) {
                     String query = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
@@ -99,6 +112,7 @@ public class Compiler {
                 }
             }
             input.close();
+            userInput.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
