@@ -1,5 +1,4 @@
-var a = input("name")
+var a = input("How old are you?")
 
-if (a=="arpon") 
-    print("you are arpon")
-# add condition for string and int 
+if (a==17)
+    print("You are 17")

@@ -31,12 +31,12 @@ public class Compiler {
                         strVars.addVariable(line.split(" ")[1], value);
                         variables.addVariable(line.split(" ")[1], "String");
                     } else if (isInteger(line.split(" ")[3])) { // integer
+                        // check for math computation
                         int value = Integer.parseInt(line.split(" ")[3]);
                         intVars.addVariable(line.split(" ")[1], value);
                         variables.addVariable(line.split(" ")[1], "int");
                     } else if (line.split(" ")[3].startsWith("input(")) {
-                        String inputMessage = line.split(" ")[3].substring(line.split(" ")[3].indexOf("(") + 2,
-                                line.split(" ")[3].indexOf(")") - 1);
+                        String inputMessage = line.substring(line.indexOf("(") + 2, line.indexOf(")") - 1);
                         System.out.print(inputMessage + " ");
                         String value = userInput.nextLine();
                         if (isInteger(value)) {
