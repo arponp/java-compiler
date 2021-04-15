@@ -1,4 +1,4 @@
-var a = input("How old are you?")
+var name = "jim"
 
-if (a==17)
-    print("You are 17")
+if (name=="bob")
+    run(print(name),10)

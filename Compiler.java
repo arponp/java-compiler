@@ -10,8 +10,16 @@ public class Compiler {
             File file = new File("/Users/arponp/Desktop/Mission 20-21/Java mission/java-compiler/sample.txt");
             Scanner input = new Scanner(file);
             Scanner userInput = new Scanner(System.in);
-            while (input.hasNextLine()) {
-                String line = input.nextLine();
+            String loopStatement = "";
+            int loopTimesLeft = 0;
+            while (input.hasNextLine() || loopTimesLeft > 0) {
+                String line = "";
+                if (!(loopTimesLeft > 0)) {
+                    line = input.nextLine();
+                } else {
+                    line = loopStatement;
+                    loopTimesLeft--;
+                }
                 if (line.startsWith("    ")) {
                     line = line.substring(4);
                 }
@@ -31,7 +39,6 @@ public class Compiler {
                         strVars.addVariable(line.split(" ")[1], value);
                         variables.addVariable(line.split(" ")[1], "String");
                     } else if (isInteger(line.split(" ")[3])) { // integer
-                        // check for math computation
                         int value = Integer.parseInt(line.split(" ")[3]);
                         intVars.addVariable(line.split(" ")[1], value);
                         variables.addVariable(line.split(" ")[1], "int");
@@ -46,6 +53,46 @@ public class Compiler {
                             strVars.addVariable(line.split(" ")[1], value);
                             variables.addVariable(line.split(" ")[1], "String");
                         }
+                    } else if (line.split(" ")[3].contains("+")) {
+                        String[] values = line.split(" ")[3].split("\\+");
+                        int sum = 0;
+                        for (String value : values) {
+                            sum += Integer.parseInt(value);
+                        }
+                        intVars.addVariable(line.split(" ")[1], sum);
+                        variables.addVariable(line.split(" ")[1], "int");
+                    } else if (line.split(" ")[3].contains("-")) {
+                        String[] values = line.split(" ")[3].split("\\-");
+                        int difference = Integer.parseInt(values[0]);
+                        for (int i = 1; i < values.length; i++) {
+                            difference -= Integer.parseInt(values[i]);
+                        }
+                        intVars.addVariable(line.split(" ")[1], difference);
+                        variables.addVariable(line.split(" ")[1], "int");
+                    } else if (line.split(" ")[3].contains("*")) {
+                        String[] values = line.split(" ")[3].split("\\*");
+                        int product = 1;
+                        for (String value : values) {
+                            product *= Integer.parseInt(value);
+                        }
+                        intVars.addVariable(line.split(" ")[1], product);
+                        variables.addVariable(line.split(" ")[1], "int");
+                    } else if (line.split(" ")[3].contains("/")) {
+                        String[] values = line.split(" ")[3].split("\\/");
+                        int quotient = Integer.parseInt(values[0]);
+                        for (int i = 1; i < values.length; i++) {
+                            quotient /= Integer.parseInt(values[i]);
+                        }
+                        intVars.addVariable(line.split(" ")[1], quotient);
+                        variables.addVariable(line.split(" ")[1], "int");
+                    } else if (line.split(" ")[3].contains("%")) {
+                        String[] values = line.split(" ")[3].split("\\%");
+                        int quotient = Integer.parseInt(values[0]);
+                        for (int i = 1; i < values.length; i++) {
+                            quotient %= Integer.parseInt(values[i]);
+                        }
+                        intVars.addVariable(line.split(" ")[1], quotient);
+                        variables.addVariable(line.split(" ")[1], "int");
                     }
                 } else if (line.startsWith("print(")) {
                     String query = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
@@ -53,6 +100,41 @@ public class Compiler {
                         System.out.println(query.substring(query.indexOf("\"") + 1, query.length() - 1));
                     } else if (isInteger(query)) { // print integers
                         System.out.println(line.substring(line.indexOf("(") + 1, line.indexOf(")")));
+                    } else if (query.contains("+")) {
+                        String[] values = query.split("\\+");
+                        int sum = 0;
+                        for (String value : values) {
+                            sum += Integer.parseInt(value);
+                        }
+                        System.out.println(sum);
+                    } else if (query.contains("-")) {
+                        String[] values = query.split("\\-");
+                        int difference = Integer.parseInt(values[0]);
+                        for (int i = 1; i < values.length; i++) {
+                            difference -= Integer.parseInt(values[i]);
+                        }
+                        System.out.println(difference);
+                    } else if (query.contains("*")) {
+                        String[] values = query.split("\\*");
+                        int product = 1;
+                        for (String value : values) {
+                            product *= Integer.parseInt(value);
+                        }
+                        System.out.println(product);
+                    } else if (query.contains("/")) {
+                        String[] values = query.split("\\/");
+                        int quotient = Integer.parseInt(values[0]);
+                        for (int i = 1; i < values.length; i++) {
+                            quotient /= Integer.parseInt(values[i]);
+                        }
+                        System.out.println(quotient);
+                    } else if (query.contains("%")) {
+                        String[] values = query.split("\\%");
+                        int quotient = Integer.parseInt(values[0]);
+                        for (int i = 1; i < values.length; i++) {
+                            quotient %= Integer.parseInt(values[i]);
+                        }
+                        System.out.println(quotient);
                     } else { // print variables
                         String type = variables.getType(line.substring(line.indexOf("(") + 1, line.indexOf(")")));
                         if (type.equals("String")) {
@@ -109,6 +191,16 @@ public class Compiler {
                             }
                         }
                     }
+                } else if (line.startsWith("run(")) { // for loop
+                    int times = Integer
+                            .parseInt(line.substring(line.indexOf("(") + 1, line.length() - 1).split(",")[1]);
+                    String printStatement = line.substring(line.indexOf("(") + 1, line.length() - 1).split(",")[0];
+                    if (!printStatement.startsWith("print(")) {
+                        System.out.println("Compile error");
+                        break;
+                    }
+                    loopStatement = printStatement;
+                    loopTimesLeft = times;
                 }
             }
             input.close();
